@@ -5,31 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mangalam HDPE Pipes – Premium HDPE Pipes & Coils</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Google Fonts: Playfair Display for headings, Lato for body -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-  <!-- Font Awesome for icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  
 </head>
 <body>
 
-  <!-- ===================== STICKY HEADER ===================== -->
-  <!-- Appears after scrolling past the hero section -->
+  <!-- ===== STICKY HEADER: slides in after scrolling past hero ===== -->
   <header class="sticky-header" id="stickyHeader">
     <div class="sticky-header__inner container">
-      <a href="#" class="logo sticky-logo">
+      <a href="#" class="logo">
         <span class="logo-mangalam">M<span>angalam</span></span>
         <span class="logo-sub">HDPE <span>|</span> PIPES</span>
       </a>
       <nav class="sticky-nav">
         <a href="#">About Us</a>
         <a href="#">Products <i class="fa fa-chevron-down"></i></a>
-        <a href="#contact" class="btn btn-primary" style="color:white !important;">Contact Us</a>
+        <a href="#contact" class="btn btn-primary" style="color: white !important;">Contact Us</a>
       </nav>
     </div>
   </header>
 
-  <!-- ===================== MAIN NAVBAR (first fold) ===================== -->
+  <!-- ===== MAIN NAVBAR ===== -->
   <header class="main-navbar" id="mainNavbar">
     <div class="container navbar__inner">
       <a href="#" class="logo">
@@ -39,29 +37,28 @@
       <nav class="main-nav">
         <a href="#">About Us</a>
         <a href="#">Products <i class="fa fa-chevron-down"></i></a>
-        <a href="#contact" class="btn btn-primary" style="color:white !important;">Contact Us</a>
+        <a href="#contact" class="btn btn-primary"style="color: white !important;">Contact Us</a>
       </nav>
-      <!-- Hamburger for mobile -->
       <button class="hamburger" id="hamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <!-- Mobile menu -->
     <nav class="mobile-nav" id="mobileNav">
       <a href="#">About Us</a>
       <a href="#">Products</a>
-      <a href="#contact" class="btn btn-primary" style="color:white !important;">Contact Us</a>
+      <a href="#contact" class="btn btn-primary"style="color: white !important;">Contact Us</a>
     </nav>
   </header>
 
   <main>
 
-    <!-- ===================== SECTION 1: HERO / PRODUCT DETAIL ===================== -->
+    <!-- ===== SECTION 1: HERO ===== -->
     <section class="hero-section" id="hero">
       <div class="container hero__grid">
 
-        <!-- Left: Image Carousel -->
+        <!-- LEFT: Carousel + Zoom Preview -->
         <div class="carousel-wrapper">
+
           <!-- Breadcrumb -->
           <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="#">Products</a>
@@ -69,90 +66,108 @@
             <span>Two For One Twister</span>
           </nav>
 
-          <div class="carousel" id="mainCarousel">
-            <div class="carousel__track" id="carouselTrack">
-              <!-- Slide 1 -->
-              <div class="carousel__slide active">
-                <img src="images/pic1.jfif" alt="HDPE Pipe installation workers" class="carousel__img" />
-                <!-- Zoom lens overlay -->
-                <div class="zoom-lens" id="zoomLens"></div>
+          <!--
+            zoom-area: flex row container.
+            Left = carousel image. Right = zoomed preview box.
+            The preview box slides in when user hovers the image.
+          -->
+          <div class="zoom-area" id="zoomArea">
+
+            <!-- Main Carousel -->
+            <div class="carousel" id="mainCarousel">
+              <div class="carousel__track" id="carouselTrack">
+
+                <div class="carousel__slide">
+                  <img src="images/pic1.jfif" alt="HDPE pipe workers on site" class="carousel__img" />
+                  <!-- Lens rectangle that follows cursor -->
+                  <div class="zoom-lens"></div>
+                </div>
+
+                <div class="carousel__slide">
+                  <img src="images/pic2.jfif" alt="HDPE pipe coils" class="carousel__img" />
+                  <div class="zoom-lens"></div>
+                </div>
+
+                <div class="carousel__slide">
+                  <img src="images/pic3.jfif" alt="Pipe manufacturing floor" class="carousel__img" />
+                  <div class="zoom-lens"></div>
+                </div>
+
+                <div class="carousel__slide">
+                  <img src="images/pic4.jfif" alt="Construction workers" class="carousel__img" />
+                  <div class="zoom-lens"></div>
+                </div>
+
+                <div class="carousel__slide">
+                  <img src="images/pic5.jfif" alt="Infrastructure pipes" class="carousel__img" />
+                  <div class="zoom-lens"></div>
+                </div>
+
+              </div><!-- /.carousel__track -->
+
+              <!-- Prev / Next arrows -->
+              <button class="carousel__btn carousel__btn--prev" id="prevBtn" aria-label="Previous slide">
+                <i class="fa fa-arrow-left"></i>
+              </button>
+              <button class="carousel__btn carousel__btn--next" id="nextBtn" aria-label="Next slide">
+                <i class="fa fa-arrow-right"></i>
+              </button>
+
+              <!-- Small hint label bottom-right of image -->
+              <div class="zoom-hint"><i class="fa fa-magnifying-glass-plus"></i> Hover to zoom</div>
+
+            </div><!-- /.carousel -->
+
+            <!--
+              ZOOM PREVIEW BOX
+              Hidden by default (opacity 0, pointer-events none).
+              JS adds class "active" on hover to reveal it.
+              The <img> inside is repositioned by JS to show the zoomed region.
+            -->
+            <div class="zoom-preview-box" id="zoomPreviewBox">
+              <div class="zoom-preview-box__header">
+                <i class="fa fa-magnifying-glass-plus"></i>
+                <span>Zoomed View</span>
               </div>
-              <!-- Slide 2 -->
-              <div class="carousel__slide">
-                <img src="images/pic2.jfif" alt="HDPE Pipe coils" class="carousel__img" />
-                <div class="zoom-lens"></div>
-              </div>
-              <!-- Slide 3 -->
-              <div class="carousel__slide">
-                <img src="images/pic3.jfif" alt="Pipe manufacturing" class="carousel__img" />
-                <div class="zoom-lens"></div>
-              </div>
-              <!-- Slide 4 -->
-              <div class="carousel__slide">
-                <img src="images/pic4.jfif" alt="Construction pipes" class="carousel__img" />
-                <div class="zoom-lens"></div>
-              </div>
-              <!-- Slide 5 -->
-              <div class="carousel__slide">
-                <img src="images/pic5.jfif" alt="Infrastructure" class="carousel__img" />
-                <div class="zoom-lens"></div>
+              <div class="zoom-preview-box__viewport" id="zoomViewport">
+                <img src="" alt="Zoom preview" id="zoomPreviewImg" />
+                <!-- decorative crosshair lines in the center of preview -->
+                <span class="crosshair crosshair--h"></span>
+                <span class="crosshair crosshair--v"></span>
               </div>
             </div>
 
-            <!-- Zoom Preview Box -->
-            <div class="zoom-preview" id="zoomPreview">
-              <img src="" alt="Zoom preview" id="zoomPreviewImg" />
-            </div>
-
-            <!-- Carousel Arrows -->
-            <button class="carousel__btn carousel__btn--prev" id="prevBtn" aria-label="Previous slide">
-              <i class="fa fa-arrow-left"></i>
-            </button>
-            <button class="carousel__btn carousel__btn--next" id="nextBtn" aria-label="Next slide">
-              <i class="fa fa-arrow-right"></i>
-            </button>
-          </div>
+          </div><!-- /.zoom-area -->
 
           <!-- Thumbnail strip -->
           <div class="carousel__thumbs" id="thumbsContainer">
-            <div class="carousel__thumb active" data-index="0">
-              <img src="images/pic1.jfif" alt="thumb 1" />
-            </div>
-            <div class="carousel__thumb" data-index="1">
-              <img src="images/pic2.jfif" alt="thumb 2" />
-            </div>
-            <div class="carousel__thumb" data-index="2">
-              <img src="images/pic3.jfif" alt="thumb 3" />
-            </div>
-            <div class="carousel__thumb" data-index="3">
-              <img src="images/pic4.jfif" alt="thumb 4" />
-            </div>
-            <div class="carousel__thumb" data-index="4">
-              <img src="images/pic5.jfif" alt="thumb 5" />
-            </div>
+            <div class="carousel__thumb active" data-index="0"><img src="images/pic1.jfif" alt="thumb 1" /></div>
+            <div class="carousel__thumb"        data-index="1"><img src="images/pic2.jfif" alt="thumb 2" /></div>
+            <div class="carousel__thumb"        data-index="2"><img src="images/pic3.jfif" alt="thumb 3" /></div>
+            <div class="carousel__thumb"        data-index="3"><img src="images/pic4.jfif" alt="thumb 4" /></div>
+            <div class="carousel__thumb"        data-index="4"><img src="images/pic5.jfif" alt="thumb 5" /></div>
           </div>
-        </div>
 
-        <!-- Right: Product Info -->
+        </div><!-- /.carousel-wrapper -->
+
+        <!-- RIGHT: Product Info -->
         <div class="hero__info">
-          <!-- Certification badges -->
           <div class="cert-badges">
             <span class="badge"><i class="fa fa-certificate"></i> BIS Certified</span>
             <span class="badge"><i class="fa fa-award"></i> ISO Certified</span>
             <span class="badge"><i class="fa fa-check-circle"></i> CE Certified</span>
           </div>
 
-          <h1 class="hero__title">Premium HDPE Pipes & Coils for Modern Infrastructure</h1>
+          <h1 class="hero__title">Premium HDPE Pipes &amp; Coils for Modern Infrastructure</h1>
 
           <ul class="features-list">
             <li><i class="fa fa-circle-check"></i> Leak-Proof Fusion Joints</li>
             <li><i class="fa fa-circle-check"></i> Chemical Resistance</li>
             <li><i class="fa fa-circle-check"></i> 50+ Year Service Life</li>
             <li><i class="fa fa-circle-check"></i> Flexible Installation</li>
-            <li><i class="fa fa-circle-check"></i> Flexible Installation</li>
+            <li><i class="fa fa-circle-check"></i> Environmentally Safe</li>
           </ul>
 
-          <!-- Price Card -->
           <div class="price-card">
             <p class="price-label">Price Range</p>
             <p class="price-value">₹4,80,000 – 7,90,000</p>
@@ -167,195 +182,102 @@
             <a href="#technical-specs" class="btn btn-outline btn-lg">View Technical Specs <i class="fa fa-chevron-right"></i></a>
           </div>
         </div>
-      </div>
 
-      <!-- Trusted by / Logo marquee -->
+      </div><!-- /.hero__grid -->
+
+      <!-- Trusted by marquee -->
       <div class="trusted-strip">
         <p class="trusted-label">Trusted by Hundreds of Companies Globally</p>
         <div class="marquee-wrapper">
           <div class="marquee-track">
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <!-- Duplicated for seamless loop -->
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
-            <span class="brand-logo"><img src="images/pic6.png" alt="EUROFLEX<sup>®</sup>"></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
+            <span class="brand-logo"><img src="images/pic6.png" alt="Euroflex" /></span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 2: TECHNICAL SPECS ===================== -->
+    <!-- ===== SECTION 2: TECHNICAL SPECS ===== -->
     <section class="tech-specs" id="technical-specs">
       <div class="container">
         <h2 class="section-title white">Technical Specifications at a Glance</h2>
         <p class="section-subtitle white">Comprehensive performance data demonstrating our commitment to quality and engineering excellence.</p>
-
         <div class="specs-table">
-          <div class="specs-table__header">
-            <span>PARAMETER</span>
-            <span>SPECIFICATION</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Pipe Diameter Range</span>
-            <span>20mm to 1600mm (3/4" to 63")</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Pressure Ratings</span>
-            <span>PN 2.5, PN 4, PN 6, PN 8, PN 10, PN 12.5, PN 16</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Standard Dimension Ratio</span>
-            <span>SDR 33, SDR 26, SDR 21, SDR 17, SDR 13.6, SDR 11</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Operating Temperature</span>
-            <span>-40C to +80C (-40F to +176F)</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Service Life</span>
-            <span>50+ Years (at 20 degrees C, PN 10)</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Material Density</span>
-            <span>0.95 – 0.96 g/cm3</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Certification Standards</span>
-            <span>IS 5984, ISO 4427, ASTM D3035</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Joint Type</span>
-            <span>Butt Fusion, Electrofusion, Mechanical</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Coil Lengths</span>
-            <span>Up to 500mm (for smaller diameters)</span>
-          </div>
-          <div class="specs-table__row">
-            <span>Country of Origin</span>
-            <span>🇮🇳 India</span>
-          </div>
+          <div class="specs-table__header"><span>PARAMETER</span><span>SPECIFICATION</span></div>
+          <div class="specs-table__row"><span>Pipe Diameter Range</span><span>20mm to 1600mm (3/4" to 63")</span></div>
+          <div class="specs-table__row"><span>Pressure Ratings</span><span>PN 2.5, PN 4, PN 6, PN 8, PN 10, PN 12.5, PN 16</span></div>
+          <div class="specs-table__row"><span>Standard Dimension Ratio</span><span>SDR 33, SDR 26, SDR 21, SDR 17, SDR 13.6, SDR 11</span></div>
+          <div class="specs-table__row"><span>Operating Temperature</span><span>-40°C to +80°C (-40°F to +176°F)</span></div>
+          <div class="specs-table__row"><span>Service Life</span><span>50+ Years (at 20°C, PN 10)</span></div>
+          <div class="specs-table__row"><span>Material Density</span><span>0.95 – 0.96 g/cm³</span></div>
+          <div class="specs-table__row"><span>Certification Standards</span><span>IS 5984, ISO 4427, ASTM D3035</span></div>
+          <div class="specs-table__row"><span>Joint Type</span><span>Butt Fusion, Electrofusion, Mechanical</span></div>
+          <div class="specs-table__row"><span>Coil Lengths</span><span>Up to 500mm (for smaller diameters)</span></div>
+          <div class="specs-table__row"><span>Country of Origin</span><span>🇮🇳 India</span></div>
         </div>
-
         <div class="center-btn">
-          <a href="#" class="btn btn-outline-white">
-            <i class="fa fa-download"></i> Download Full Technical Datasheet
-          </a>
+          <a href="#" class="btn btn-outline-white"><i class="fa fa-download"></i> Download Full Technical Datasheet</a>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 3: FEATURES / BENEFITS ===================== -->
+    <!-- ===== SECTION 3: FEATURES ===== -->
     <section class="features-section">
       <div class="container">
         <h2 class="section-title">Built to Last. Engineered to Perform.</h2>
         <p class="section-subtitle">From bulk bags to technical threads, Meera delivers precision solutions for every stage of your packaging process.</p>
-
         <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-card__icon"><i class="fa fa-briefcase"></i></div>
-            <h3>Superior Chemical Resistance</h3>
-            <p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card__icon"><i class="fa fa-wrench"></i></div>
-            <h3>Exceptional Flexibility &amp; Durability</h3>
-            <p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card__icon"><i class="fa fa-cube"></i></div>
-            <h3>Leak-Proof Fusion Welding</h3>
-            <p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card__icon"><i class="fa fa-gear"></i></div>
-            <h3>Cost-Effective Long-Term Solution</h3>
-            <p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card__icon"><i class="fa fa-leaf"></i></div>
-            <h3>Environmentally Sustainable</h3>
-            <p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card__icon"><i class="fa fa-shield-halved"></i></div>
-            <h3>Certified Quality Assurance</h3>
-            <p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p>
-          </div>
+          <div class="feature-card"><div class="feature-card__icon"><i class="fa fa-briefcase"></i></div><h3>Superior Chemical Resistance</h3><p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p></div>
+          <div class="feature-card"><div class="feature-card__icon"><i class="fa fa-wrench"></i></div><h3>Exceptional Flexibility &amp; Durability</h3><p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p></div>
+          <div class="feature-card"><div class="feature-card__icon"><i class="fa fa-cube"></i></div><h3>Leak-Proof Fusion Welding</h3><p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p></div>
+          <div class="feature-card"><div class="feature-card__icon"><i class="fa fa-gear"></i></div><h3>Cost-Effective Long-Term Solution</h3><p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p></div>
+          <div class="feature-card"><div class="feature-card__icon"><i class="fa fa-leaf"></i></div><h3>Environmentally Sustainable</h3><p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p></div>
+          <div class="feature-card"><div class="feature-card__icon"><i class="fa fa-shield-halved"></i></div><h3>Certified Quality Assurance</h3><p>HDPE pipes resist a wide range of chemicals, acids, and alkalis. Unlike metal pipes, they won't corrode, rust, or scale, ensuring pure water quality and extended service life in aggressive environments.</p></div>
         </div>
-
-        <div class="center-btn">
-          <a href="#contact" class="btn btn-primary btn-lg">Request a Quote</a>
-        </div>
+        <div class="center-btn"><a href="#contact" class="btn btn-primary btn-lg">Request a Quote</a></div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 4: FAQ ===================== -->
+    <!-- ===== SECTION 4: FAQ ===== -->
     <section class="faq-section">
       <div class="container">
-        <h2 class="section-title">
-          <span class="text-primary">Frequently</span> Asked Questions
-        </h2>
-
-        <div class="faq-list" id="faqList">
+        <h2 class="section-title"><span class="text-primary">Frequently</span> Asked Questions</h2>
+        <div class="faq-list">
           <div class="faq-item open">
-            <button class="faq-question" aria-expanded="true">
-              What is the purpose of a laser cutter for sheet metal?
-              <i class="fa fa-chevron-up faq-icon"></i>
-            </button>
-            <div class="faq-answer">
-              <p>It is designed to cut various types of sheet metal with precision, allowing for intricate designs and shapes that are essential in manufacturing processes.</p>
-            </div>
+            <button class="faq-question" aria-expanded="true">What is the purpose of a laser cutter for sheet metal?<i class="fa fa-chevron-up faq-icon"></i></button>
+            <div class="faq-answer"><p>It is designed to cut various types of sheet metal with precision, allowing for intricate designs and shapes that are essential in manufacturing processes.</p></div>
           </div>
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
-              What are the benefits of using aluminum tubing in manufacturing?
-              <i class="fa fa-chevron-down faq-icon"></i>
-            </button>
-            <div class="faq-answer">
-              <p>Aluminum tubing offers lightweight strength, corrosion resistance, and excellent thermal conductivity, making it ideal for structural and fluid transfer applications in modern manufacturing.</p>
-            </div>
+            <button class="faq-question" aria-expanded="false">What are the benefits of using aluminum tubing in manufacturing?<i class="fa fa-chevron-down faq-icon"></i></button>
+            <div class="faq-answer"><p>Aluminum tubing offers lightweight strength, corrosion resistance, and excellent thermal conductivity, making it ideal for structural and fluid transfer applications.</p></div>
           </div>
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
-              How is aluminum tubing produced?
-              <i class="fa fa-chevron-down faq-icon"></i>
-            </button>
-            <div class="faq-answer">
-              <p>Aluminum tubing is produced through extrusion or drawing processes, where aluminum billets are pushed or pulled through a die to achieve the desired shape and dimensions.</p>
-            </div>
+            <button class="faq-question" aria-expanded="false">How is aluminum tubing produced?<i class="fa fa-chevron-down faq-icon"></i></button>
+            <div class="faq-answer"><p>Aluminum tubing is produced through extrusion or drawing processes, where aluminum billets are pushed or pulled through a die to achieve the desired shape and dimensions.</p></div>
           </div>
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
-              What are the common applications of aluminum tubing?
-              <i class="fa fa-chevron-down faq-icon"></i>
-            </button>
-            <div class="faq-answer">
-              <p>Common applications include aerospace structures, HVAC systems, automotive components, furniture frames, and fluid transportation systems across various industries.</p>
-            </div>
+            <button class="faq-question" aria-expanded="false">What are the common applications of aluminum tubing?<i class="fa fa-chevron-down faq-icon"></i></button>
+            <div class="faq-answer"><p>Common applications include aerospace structures, HVAC systems, automotive components, furniture frames, and fluid transportation systems across various industries.</p></div>
           </div>
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
-              Can aluminum tubing be customized?
-              <i class="fa fa-chevron-down faq-icon"></i>
-            </button>
-            <div class="faq-answer">
-              <p>Yes, aluminum tubing can be customized in terms of length, diameter, wall thickness, alloy composition, and surface finish to meet specific application requirements.</p>
-            </div>
+            <button class="faq-question" aria-expanded="false">Can aluminum tubing be customized?<i class="fa fa-chevron-down faq-icon"></i></button>
+            <div class="faq-answer"><p>Yes, aluminum tubing can be customized in terms of length, diameter, wall thickness, alloy composition, and surface finish to meet specific application requirements.</p></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 5: CATALOGUE EMAIL ===================== -->
+    <!-- ===== SECTION 5: CATALOGUE EMAIL ===== -->
     <section class="catalogue-section">
       <div class="container">
         <div class="catalogue-card">
@@ -371,7 +293,7 @@
       </div>
     </section>
 
-    <!-- ===================== SECTION 6: INDUSTRIES CAROUSEL ===================== -->
+    <!-- ===== SECTION 6: INDUSTRIES CAROUSEL ===== -->
     <section class="industries-section">
       <div class="container">
         <div class="industries-header">
@@ -384,300 +306,111 @@
             <button class="nav-btn" id="indNext" aria-label="Next"><i class="fa fa-arrow-right"></i></button>
           </div>
         </div>
-
         <div class="industries-carousel" id="industriesCarousel">
           <div class="industries-track" id="industriesTrack">
-            <div class="industry-card">
-              <img src="images/pic1.jfif" alt="Fishnet Manufacturing" />
-              <div class="industry-card__overlay">
-                <h4>Fishnet Manufacturing</h4>
-                <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
-              </div>
-            </div>
-            <div class="industry-card">
-              <img src="images/pic2.jfif" alt="Fishnet Manufacturing" />
-              <div class="industry-card__overlay">
-                <h4>Fishnet Manufacturing</h4>
-                <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
-              </div>
-            </div>
-            <div class="industry-card">
-              <img src="images/pic5.jfif" alt="Fishnet Manufacturing" />
-              <div class="industry-card__overlay">
-                <h4>Fishnet Manufacturing</h4>
-                <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
-              </div>
-            </div>
-            <div class="industry-card">
-              <img src="images/pic3.jfif" alt="Fishnet Manufacturing" />
-              <div class="industry-card__overlay">
-                <h4>Fishnet Manufacturing</h4>
-                <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
-              </div>
-            </div>
-            <div class="industry-card">
-              <img src="images/pic4.jfif" alt="Fishnet Manufacturing" />
-              <div class="industry-card__overlay">
-                <h4>Fishnet Manufacturing</h4>
-                <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
-              </div>
-            </div>
+            <div class="industry-card"><img src="images/pic1.jfif" alt="Fishnet Manufacturing" /><div class="industry-card__overlay"><h4>Fishnet Manufacturing</h4><p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p></div></div>
+            <div class="industry-card"><img src="images/pic2.jfif" alt="Pipe Infrastructure"   /><div class="industry-card__overlay"><h4>Pipe Infrastructure</h4><p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p></div></div>
+            <div class="industry-card"><img src="images/pic3.jfif" alt="Industrial Solutions"  /><div class="industry-card__overlay"><h4>Industrial Solutions</h4><p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p></div></div>
+            <div class="industry-card"><img src="images/pic4.jfif" alt="Construction"          /><div class="industry-card__overlay"><h4>Construction</h4><p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p></div></div>
+            <div class="industry-card"><img src="images/pic5.jfif" alt="Marine Applications"  /><div class="industry-card__overlay"><h4>Marine Applications</h4><p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p></div></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 7: MANUFACTURING PROCESS TABS ===================== -->
+    <!-- ===== SECTION 7: PROCESS TABS ===== -->
     <section class="process-section">
       <div class="container">
         <h2 class="section-title center">Advanced HDPE Pipe Manufacturing Process</h2>
         <p class="section-subtitle center">Our state-of-the-art extrusion technology ensures consistent quality, optimal material properties, and dimensional accuracy in every pipe we manufacture.</p>
-
         <div class="process-card">
-          <!-- Tab navigation -->
           <div class="process-tabs" id="processTabs" role="tablist">
-            <button class="process-tab active" data-tab="raw" role="tab" aria-selected="true">Raw Material</button>
-            <button class="process-tab" data-tab="extrusion" role="tab" aria-selected="false">Extrusion</button>
-            <button class="process-tab" data-tab="cooling" role="tab" aria-selected="false">Cooling</button>
-            <button class="process-tab" data-tab="sizing" role="tab" aria-selected="false">Sizing</button>
-            <button class="process-tab" data-tab="quality" role="tab" aria-selected="false">Quality Control</button>
-            <button class="process-tab" data-tab="marking" role="tab" aria-selected="false">Marking</button>
-            <button class="process-tab" data-tab="cutting" role="tab" aria-selected="false">Cutting</button>
-            <button class="process-tab" data-tab="packaging" role="tab" aria-selected="false">Packaging</button>
+            <button class="process-tab active" data-tab="raw"       role="tab" aria-selected="true">Raw Material</button>
+            <button class="process-tab"        data-tab="extrusion" role="tab">Extrusion</button>
+            <button class="process-tab"        data-tab="cooling"   role="tab">Cooling</button>
+            <button class="process-tab"        data-tab="sizing"    role="tab">Sizing</button>
+            <button class="process-tab"        data-tab="quality"   role="tab">Quality Control</button>
+            <button class="process-tab"        data-tab="marking"   role="tab">Marking</button>
+            <button class="process-tab"        data-tab="cutting"   role="tab">Cutting</button>
+            <button class="process-tab"        data-tab="packaging" role="tab">Packaging</button>
           </div>
-
-          <!-- Tab content panels -->
           <div class="process-panels">
-            <div class="process-panel active" id="tab-raw">
-              <div class="process-panel__text">
-                <h3>High-Grade Raw Material Selection</h3>
-                <p>Vacuum sizing tanks ensure precise outer diameter while internal pressure maintains pipe roundness. Our carefully selected PE100 and PE80 grade raw materials from certified suppliers ensure consistent molecular weight distribution and optimal melt flow index for superior pipe performance.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic1.jfif" alt="Raw material selection" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-extrusion">
-              <div class="process-panel__text">
-                <h3>Precision Extrusion Process</h3>
-                <p>Our advanced twin-screw extruders provide uniform melt temperature and pressure, ensuring consistent wall thickness and dimensional stability throughout the entire pipe length. Temperature-controlled zones maintain optimal processing conditions.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic2.jfif" alt="Extrusion" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-cooling">
-              <div class="process-panel__text">
-                <h3>Controlled Cooling System</h3>
-                <p>Gradual, controlled cooling in multiple water baths prevents residual stress buildup and ensures dimensional stability. This critical step determines the final mechanical properties and long-term performance of the pipe.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic3.jfif" alt="Cooling" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-sizing">
-              <div class="process-panel__text">
-                <h3>Precision Sizing & Calibration</h3>
-                <p>Vacuum sizing tanks ensure precise outer diameter while internal pressure maintains pipe roundness. Laser measurement systems provide real-time dimensional feedback for continuous quality assurance.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic4.jfif" alt="Sizing" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-quality">
-              <div class="process-panel__text">
-                <h3>Rigorous Quality Control</h3>
-                <p>Every pipe undergoes comprehensive testing including hydrostatic pressure tests, dimensional verification, visual inspection, and material property analysis to ensure compliance with international standards.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic5.jfif" alt="Quality Control" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-marking">
-              <div class="process-panel__text">
-                <h3>Permanent Marking & Traceability</h3>
-                <p>Each pipe is permanently marked with product specifications, batch number, certification marks, and manufacturing date for complete traceability throughout its service life.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic1.jfif" alt="Marking" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-cutting">
-              <div class="process-panel__text">
-                <h3>Precision Cutting to Length</h3>
-                <p>Automated cutting systems produce clean, square pipe ends at exact specified lengths. Burr-free cutting ensures proper joint preparation and optimal fusion welding performance in the field.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic2.jfif" alt="Cutting" />
-              </div>
-            </div>
-            <div class="process-panel" id="tab-packaging">
-              <div class="process-panel__text">
-                <h3>Secure Packaging & Dispatch</h3>
-                <p>Pipes are carefully bundled, capped, and secured for safe transportation. Our packaging protects pipe ends and surfaces from damage during handling, storage, and transit to project sites.</p>
-              </div>
-              <div class="process-panel__img">
-                <img src="images/pic3.jfif" alt="Packaging" />
-              </div>
-            </div>
+            <div class="process-panel active" id="tab-raw"><div class="process-panel__text"><h3>High-Grade Raw Material Selection</h3><p>Vacuum sizing tanks ensure precise outer diameter while internal pressure maintains pipe roundness. Our PE100 and PE80 grade raw materials from certified suppliers ensure consistent molecular weight distribution and optimal melt flow index for superior pipe performance.</p></div><div class="process-panel__img"><img src="images/pic1.jfif" alt="Raw material" /></div></div>
+            <div class="process-panel" id="tab-extrusion"><div class="process-panel__text"><h3>Precision Extrusion Process</h3><p>Our advanced twin-screw extruders provide uniform melt temperature and pressure, ensuring consistent wall thickness and dimensional stability throughout the entire pipe length.</p></div><div class="process-panel__img"><img src="images/pic2.jfif" alt="Extrusion" /></div></div>
+            <div class="process-panel" id="tab-cooling"><div class="process-panel__text"><h3>Controlled Cooling System</h3><p>Gradual, controlled cooling in multiple water baths prevents residual stress buildup and ensures dimensional stability, determining the final mechanical properties of the pipe.</p></div><div class="process-panel__img"><img src="images/pic3.jfif" alt="Cooling" /></div></div>
+            <div class="process-panel" id="tab-sizing"><div class="process-panel__text"><h3>Precision Sizing &amp; Calibration</h3><p>Vacuum sizing tanks ensure precise outer diameter while internal pressure maintains pipe roundness. Laser measurement systems provide real-time dimensional feedback.</p></div><div class="process-panel__img"><img src="images/pic4.jfif" alt="Sizing" /></div></div>
+            <div class="process-panel" id="tab-quality"><div class="process-panel__text"><h3>Rigorous Quality Control</h3><p>Every pipe undergoes comprehensive testing including hydrostatic pressure tests, dimensional verification, visual inspection, and material property analysis.</p></div><div class="process-panel__img"><img src="images/pic5.jfif" alt="Quality Control" /></div></div>
+            <div class="process-panel" id="tab-marking"><div class="process-panel__text"><h3>Permanent Marking &amp; Traceability</h3><p>Each pipe is permanently marked with product specifications, batch number, certification marks, and manufacturing date for complete traceability.</p></div><div class="process-panel__img"><img src="images/pic1.jfif" alt="Marking" /></div></div>
+            <div class="process-panel" id="tab-cutting"><div class="process-panel__text"><h3>Precision Cutting to Length</h3><p>Automated cutting systems produce clean, square pipe ends at exact specified lengths. Burr-free cutting ensures proper joint preparation and optimal fusion welding performance.</p></div><div class="process-panel__img"><img src="images/pic2.jfif" alt="Cutting" /></div></div>
+            <div class="process-panel" id="tab-packaging"><div class="process-panel__text"><h3>Secure Packaging &amp; Dispatch</h3><p>Pipes are carefully bundled, capped, and secured for safe transportation. Our packaging protects pipe ends and surfaces during handling, storage, and transit.</p></div><div class="process-panel__img"><img src="images/pic3.jfif" alt="Packaging" /></div></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 8: TESTIMONIALS ===================== -->
+    <!-- ===== SECTION 8: TESTIMONIALS ===== -->
     <section class="testimonials-section">
       <div class="container">
         <h2 class="section-title center">Trusted Performance. Proven Results</h2>
         <p class="section-subtitle center">From innovative Two-For-One Twisters to specialized heat setting machines, we deliver complete solutions for modern textile manufacturing.</p>
-
         <div class="testimonials-track-wrapper">
           <div class="testimonials-track" id="testimonialsTrack">
-            <div class="testimonial-card">
-              <div class="quote-icon">"</div>
-              <h4>Excellent support for specialized applications.</h4>
-              <p>The durability and performance of Meera's fishnet processing equipment has significantly improved our marine product quality. Excellent support for specialized applications.</p>
-              <div class="testimonial-author">
-                <div class="author-avatar"></div>
-                <div>
-                  <strong>Carlos Mendoza</strong>
-                  <span>Operations Manager</span>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-card">
-              <div class="quote-icon">"</div>
-              <h4>Excellent support for specialized applications.</h4>
-              <p>The durability and performance of Meera's fishnet processing equipment has significantly improved our marine product quality. Excellent support for specialized applications.</p>
-              <div class="testimonial-author">
-                <div class="author-avatar"></div>
-                <div>
-                  <strong>Carlos Mendoza</strong>
-                  <span>Operations Manager</span>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-card">
-              <div class="quote-icon">"</div>
-              <h4>Provides the expertise we need!</h4>
-              <p>For our technical textile specialized machinery specifications we need automotive textile requirements delivered beyond expectations.</p>
-              <div class="testimonial-author">
-                <div class="author-avatar"></div>
-                <div>
-                  <strong>Rajesh Kumar</strong>
-                  <span>Manufacturing Head</span>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-card">
-              <div class="quote-icon">"</div>
-              <h4>Boosted our FIBC production efficiency!</h4>
-              <p>TFO machines have transformed our FIBC production efficiency. Engineering delivers the strength critical for our bulk packaging solutions.</p>
-              <div class="testimonial-author">
-                <div class="author-avatar"></div>
-                <div>
-                  <strong>H. Mueller</strong>
-                  <span>Operations Director</span>
-                </div>
-              </div>
-            </div>
+            <div class="testimonial-card"><div class="quote-icon">"</div><h4>Excellent support for specialized applications.</h4><p>The durability and performance of Meera's fishnet processing equipment has significantly improved our marine product quality. Excellent support for specialized applications.</p><div class="testimonial-author"><div class="author-avatar"></div><div><strong>Carlos Mendoza</strong><span>Operations Manager</span></div></div></div>
+            <div class="testimonial-card"><div class="quote-icon">"</div><h4>Excellent support for specialized applications.</h4><p>The durability and performance of Meera's fishnet processing equipment has significantly improved our marine product quality. Excellent support for specialized applications.</p><div class="testimonial-author"><div class="author-avatar"></div><div><strong>Carlos Mendoza</strong><span>Operations Manager</span></div></div></div>
+            <div class="testimonial-card"><div class="quote-icon">"</div><h4>Provides the expertise we need!</h4><p>For our technical textile specialized machinery specifications — automotive textile requirements delivered beyond expectations consistently.</p><div class="testimonial-author"><div class="author-avatar"></div><div><strong>Rajesh Kumar</strong><span>Manufacturing Head</span></div></div></div>
+            <div class="testimonial-card"><div class="quote-icon">"</div><h4>Boosted our FIBC production efficiency!</h4><p>TFO machines have transformed our FIBC production efficiency. Engineering delivers the strength critical for our bulk packaging solutions.</p><div class="testimonial-author"><div class="author-avatar"></div><div><strong>H. Mueller</strong><span>Operations Director</span></div></div></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 9: PORTFOLIO / RELATED PRODUCTS ===================== -->
+    <!-- ===== SECTION 9: PORTFOLIO ===== -->
     <section class="portfolio-section">
       <div class="container">
         <h2 class="section-title center">Complete Piping Solutions Portfolio</h2>
         <p class="section-subtitle center">From innovative Two-For-One Twisters to specialized heat setting machines, we deliver complete solutions for modern textile manufacturing.</p>
-
         <div class="portfolio-grid">
-          <div class="portfolio-card">
-            <h4>HDPE Fittings &amp; Accessories</h4>
-            <p>Complete range of electrofusion and butt fusion fittings, including elbows, tees, reducers, and couplers for seamless pipe connections.</p>
-            <div class="portfolio-card__img">
-              <img src="images/pic3.jfif" alt="HDPE Fittings" />
-            </div>
-            <a href="#" class="btn btn-ghost">Learn More</a>
-          </div>
-          <div class="portfolio-card">
-            <h4>Professional Installation Services</h4>
-            <p>Expert installation and fusion welding services ensuring optimal system performance, compliance with standards, and long-term reliability.</p>
-            <div class="portfolio-card__img">
-              <img src="images/pic4.jfif" alt="Installation Services" />
-            </div>
-            <a href="#" class="btn btn-ghost">Learn More</a>
-          </div>
-          <div class="portfolio-card">
-            <h4>PE-RT Heating Pipes</h4>
-            <p>Polyethylene of Raised Temperature resistance pipes ideal for underfloor heating, radiator connections, and hot water applications.</p>
-            <div class="portfolio-card__img">
-              <img src="images/pic1.jfif" alt="PE-RT Heating" />
-            </div>
-            <a href="#" class="btn btn-ghost">Learn More</a>
-          </div>
+          <div class="portfolio-card"><h4>HDPE Fittings &amp; Accessories</h4><p>Complete range of electrofusion and butt fusion fittings, including elbows, tees, reducers, and couplers for seamless pipe connections.</p><div class="portfolio-card__img"><img src="images/pic3.jfif" alt="HDPE Fittings" /></div><a href="#" class="btn btn-ghost">Learn More</a></div>
+          <div class="portfolio-card"><h4>Professional Installation Services</h4><p>Expert installation and fusion welding services ensuring optimal system performance, compliance with standards, and long-term reliability.</p><div class="portfolio-card__img"><img src="images/pic4.jfif" alt="Installation Services" /></div><a href="#" class="btn btn-ghost">Learn More</a></div>
+          <div class="portfolio-card"><h4>PE-RT Heating Pipes</h4><p>Polyethylene of Raised Temperature resistance pipes ideal for underfloor heating, radiator connections, and hot water applications.</p><div class="portfolio-card__img"><img src="images/pic1.jfif" alt="PE-RT Heating" /></div><a href="#" class="btn btn-ghost">Learn More</a></div>
         </div>
-
-        <!-- CTA Banner -->
         <div class="cta-banner">
-          <div>
-            <h3>Didn't find what <span class="text-primary">you're looking for?</span></h3>
-            <p>Talk to our experts for custom solutions and tailored guidence.</p>
-          </div>
+          <div><h3>Didn't find what <span class="text-primary">you're looking for?</span></h3><p>Talk to our experts for custom solutions and tailored guidance.</p></div>
           <a href="#contact" class="btn btn-primary"><i class="fa fa-phone"></i> Talk to an Expert</a>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 10: RESOURCES & DOWNLOADS ===================== -->
+    <!-- ===== SECTION 10: RESOURCES ===== -->
     <section class="resources-section">
       <div class="container">
         <h2 class="section-title center">Resources &amp; Downloads</h2>
         <p class="section-subtitle center">Get all the technical documentation and resources you need to make informed decisions about our HDPE piping solutions.</p>
-
         <div class="resources-list">
-          <div class="resource-item">
-            <span>HDPE Pipe Installation Manual (PDF)</span>
-            <a href="#" class="download-link"><span>Download PDF</span> <i class="fa fa-download"></i></a>
-          </div>
-          <div class="resource-item">
-            <span>Maintenance &amp; Inspection Handbook (PDF)</span>
-            <a href="#" class="download-link"><span>Download PDF</span> <i class="fa fa-download"></i></a>
-          </div>
-          <div class="resource-item">
-            <span>Engineering Specifications Sheet (PDF)</span>
-            <a href="#" class="download-link"><span>Download PDF</span> <i class="fa fa-download"></i></a>
-          </div>
+          <div class="resource-item"><span>HDPE Pipe Installation Manual (PDF)</span><a href="#" class="download-link"><span>Download PDF</span> <i class="fa fa-download"></i></a></div>
+          <div class="resource-item"><span>Maintenance &amp; Inspection Handbook (PDF)</span><a href="#" class="download-link"><span>Download PDF</span> <i class="fa fa-download"></i></a></div>
+          <div class="resource-item"><span>Engineering Specifications Sheet (PDF)</span><a href="#" class="download-link"><span>Download PDF</span> <i class="fa fa-download"></i></a></div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SECTION 11: CONTACT FORM ===================== -->
+    <!-- ===== SECTION 11: CONTACT ===== -->
     <section class="contact-section" id="contact">
       <div class="container">
         <div class="contact-card">
-          <!-- Left side -->
           <div class="contact-card__left">
             <h2>Ready to Transform Your Textile Manufacturing?</h2>
             <p>Get a personalized consultation and quote for machinery solutions tailored to your specific production requirements.</p>
             <hr />
             <p class="contact-meta">For immediate assistance, feel free to give us a direct call at <strong>+91-XXX-XXX-XXXX</strong>. You can also send us a quick email at <a href="mailto:info@meeraind.com" class="contact-email">info@meeraind.com</a></p>
           </div>
-
-          <!-- Right side: Form -->
           <div class="contact-card__form">
             <h3>Contact Us Today</h3>
-            <input type="text" placeholder="Full Name" class="input-field" />
-            <input type="text" placeholder="Company Name" class="input-field" />
+            <input type="text"  placeholder="Full Name"     class="input-field" />
+            <input type="text"  placeholder="Company Name"  class="input-field" />
             <input type="email" placeholder="Email Address" class="input-field" />
             <div class="phone-row">
-              <select class="input-field phone-code">
-                <option>+91</option>
-                <option>+1</option>
-                <option>+44</option>
-                <option>+61</option>
-              </select>
+              <select class="input-field phone-code"><option>+91</option><option>+1</option><option>+44</option><option>+61</option></select>
               <input type="tel" placeholder="7003026616" class="input-field phone-num" />
             </div>
             <button class="btn btn-dark btn-block">Request Custom Quote</button>
@@ -688,25 +421,18 @@
 
   </main>
 
-  <!-- ===================== FOOTER ===================== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-
-      <!-- Footer brand card -->
       <div class="footer-brand-card">
         <a href="#" class="logo footer-logo">
           <span class="logo-mangalam">M<span>angalam</span></span>
           <span class="logo-sub">HDPE <span>|</span> PIPES</span>
         </a>
-        <p class="footer-tagline">Premium <span class="text-primary">HDPE Pipes &amp; Fittings<br/>Manufacturer</span> in South India</p>
+        <p class="footer-tagline">Premium <span class="text-primary">HDPE Pipes &amp; Fittings<br />Manufacturer</span> in South India</p>
       </div>
-
-      <!-- Footer links -->
       <div class="footer-links">
-        <div class="footer-col">
-          <h5>About Us</h5>
-          <a href="#">About Us</a>
-        </div>
+        <div class="footer-col"><h5>About Us</h5><a href="#">About Us</a></div>
         <div class="footer-col">
           <h5>Categories</h5>
           <a href="#">Packaging Industry Solutions</a>
@@ -738,8 +464,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Footer bottom -->
       <div class="footer-bottom">
         <p>Copyright &copy; 2025 Meera Industries Limited | All Rights Reserved</p>
         <div class="footer-bottom__links">

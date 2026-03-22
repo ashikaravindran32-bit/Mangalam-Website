@@ -1,52 +1,46 @@
 /**
  * script.js — Mangalam HDPE Pipes
- * Handles:
- *  1. Sticky header (show/hide on scroll)
- *  2. Mobile hamburger menu
- *  3. Image carousel with prev/next + thumbnail navigation
- *  4. Carousel zoom-on-hover (magnifying glass effect)
- *  5. Industries horizontal carousel
- *  6. Process tabs switching
- *  7. FAQ accordion
- *  8. Testimonials auto-scroll
+ * ─────────────────────────────────
+ * 1.  Sticky header  (show on scroll past hero, hide on scroll back)
+ * 2.  Mobile hamburger menu
+ * 3.  Main image carousel  (prev/next arrows + thumbnail click)
+ * 4.  Zoom-on-hover  (lens on image + zoomed preview box beside carousel)
+ * 5.  Industries horizontal carousel  (left/right arrows)
+ * 6.  Process tabs  (click to switch panel)
+ * 7.  FAQ accordion  (click to expand / collapse)
+ * 8.  Testimonials auto-scroll  (pauses on hover)
  */
 
 (function () {
   'use strict';
 
   /* ============================================================
-     1. STICKY HEADER
-     Shows when user scrolls past the hero's first fold height.
-     Hides when scrolling back to top.
+     1.  STICKY HEADER
+     Appears after user scrolls past 60 % of the hero section height.
+     Disappears when scrolling back toward the top.
      ============================================================ */
-  const stickyHeader = document.getElementById('stickyHeader');
-  const mainNavbar   = document.getElementById('mainNavbar');
-
-  let lastScrollY = 0;
+  var stickyHeader = document.getElementById('stickyHeader');
+  var heroSection  = document.getElementById('hero');
 
   function handleStickyHeader() {
-    const heroHeight = document.getElementById('hero').offsetHeight;
-    const scrollY    = window.scrollY;
-
-    if (scrollY > heroHeight * 0.6) {
-      // Past the first fold → show sticky header
+    if (!stickyHeader || !heroSection) return;
+    var threshold = heroSection.offsetHeight * 0.6;
+    if (window.scrollY > threshold) {
       stickyHeader.classList.add('visible');
     } else {
-      // Back near the top → hide sticky header
       stickyHeader.classList.remove('visible');
     }
-
-    lastScrollY = scrollY;
   }
 
   window.addEventListener('scroll', handleStickyHeader, { passive: true });
 
 
   /* ============================================================
-     2. HAMBURGER / MOBILE MENU
+     2.  MOBILE HAMBURGER MENU
+     Toggles the mobile-nav open/closed on hamburger click.
      ============================================================ */
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
+  var hamburger = document.getElementById('hamburger');
+  var mobileNav = document.getElementById('mobileNav');
 
   if (hamburger && mobileNav) {
     hamburger.addEventListener('click', function () {
@@ -57,209 +51,236 @@
 
 
   /* ============================================================
-     3. MAIN IMAGE CAROUSEL (prev / next / thumbnail)
+     3.  MAIN IMAGE CAROUSEL
      ============================================================ */
-  const track      = document.getElementById('carouselTrack');
-  const slides     = track ? Array.from(track.querySelectorAll('.carousel__slide')) : [];
-  const thumbs     = Array.from(document.querySelectorAll('.carousel__thumb'));
-  const prevBtn    = document.getElementById('prevBtn');
-  const nextBtn    = document.getElementById('nextBtn');
-
-  let currentSlide = 0;
+  var track       = document.getElementById('carouselTrack');
+  var slides      = track ? Array.from(track.querySelectorAll('.carousel__slide')) : [];
+  var thumbs      = Array.from(document.querySelectorAll('.carousel__thumb'));
+  var prevBtn     = document.getElementById('prevBtn');
+  var nextBtn     = document.getElementById('nextBtn');
+  var currentSlide = 0;
 
   /**
-   * Move carousel to a specific slide index.
-   * @param {number} index - target slide index
+   * Moves carousel to the given slide index.
+   * Wraps around (circular).
+   * @param {number} index
    */
   function goToSlide(index) {
     if (!track || slides.length === 0) return;
-
-    // Clamp index
     currentSlide = (index + slides.length) % slides.length;
 
-    // Slide the track
-    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    /* Slide the track */
+    track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
 
-    // Update active thumbnail
-    thumbs.forEach((t, i) => {
+    /* Update active thumbnail highlight */
+    thumbs.forEach(function (t, i) {
       t.classList.toggle('active', i === currentSlide);
     });
 
-    // Update zoom preview source for the new active slide
-    updateZoomPreviewSrc();
+    /* Keep zoom preview in sync with new slide's image */
+    updateZoomSrc();
   }
 
-  if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
-  if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+  if (prevBtn) prevBtn.addEventListener('click', function () { goToSlide(currentSlide - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { goToSlide(currentSlide + 1); });
 
-  // Click on thumbnails
-  thumbs.forEach((thumb) => {
+  /* Thumbnail clicks */
+  thumbs.forEach(function (thumb) {
     thumb.addEventListener('click', function () {
       goToSlide(parseInt(this.dataset.index, 10));
     });
   });
 
-
-  /* ============================================================
-     4. ZOOM-ON-HOVER  (magnifying glass effect)
-     On mouse move over the active slide image, show a zoom lens
-     and a zoomed preview panel to the right of the carousel.
-     ============================================================ */
-  const carousel      = document.getElementById('mainCarousel');
-  const zoomPreview   = document.getElementById('zoomPreview');
-  const zoomPreviewImg = document.getElementById('zoomPreviewImg');
-  const ZOOM_FACTOR   = 2.5;  // how much to zoom in
-  const LENS_W        = 120;  // lens width  (px)
-  const LENS_H        = 120;  // lens height (px)
-
-  /**
-   * Get the image element of the currently active slide.
-   */
+  /* Helper: get the <img> element of the currently visible slide */
   function getActiveImg() {
     if (!track) return null;
-    return track.querySelectorAll('.carousel__slide')[currentSlide]?.querySelector('.carousel__img');
+    var slide = track.querySelectorAll('.carousel__slide')[currentSlide];
+    return slide ? slide.querySelector('.carousel__img') : null;
   }
 
-  /**
-   * Get the zoom lens element of the currently active slide.
-   */
+  /* Helper: get the lens element of the currently visible slide */
   function getActiveLens() {
     if (!track) return null;
-    return track.querySelectorAll('.carousel__slide')[currentSlide]?.querySelector('.zoom-lens');
+    var slide = track.querySelectorAll('.carousel__slide')[currentSlide];
+    return slide ? slide.querySelector('.zoom-lens') : null;
   }
 
+
+  /* ============================================================
+     4.  ZOOM-ON-HOVER
+     ──────────────────
+     When the user moves the mouse over the carousel image:
+       a) A semi-transparent lens rectangle follows the cursor on the image.
+       b) A separate "Zoom Preview Box" (to the right) shows the
+          magnified section of the image under the cursor.
+
+     The preview box is hidden by default and revealed with a smooth
+     CSS transition when the .active class is added.
+     ============================================================ */
+  var carousel        = document.getElementById('mainCarousel');
+  var zoomArea        = document.getElementById('zoomArea');
+  var zoomPreviewBox  = document.getElementById('zoomPreviewBox');
+  var zoomViewport    = document.getElementById('zoomViewport');
+  var zoomPreviewImg  = document.getElementById('zoomPreviewImg');
+
+  var ZOOM_FACTOR = 2.8;   /* magnification level  */
+  var LENS_W      = 110;   /* lens rectangle width  (px) */
+  var LENS_H      = 110;   /* lens rectangle height (px) */
+
   /**
-   * Sync the zoom preview's src with the active slide image src.
+   * Updates the zoomPreviewImg src to match the active slide.
+   * Called whenever the slide changes.
    */
-  function updateZoomPreviewSrc() {
-    const img = getActiveImg();
-    if (img && zoomPreviewImg) {
+  function updateZoomSrc() {
+    var img = getActiveImg();
+    if (img && zoomPreviewImg && img.src) {
       zoomPreviewImg.src = img.src;
-      // Reset the background-size for the zoomed image
-      const previewW = zoomPreview ? zoomPreview.offsetWidth : 300;
-      const previewH = zoomPreview ? zoomPreview.offsetHeight : 300;
-      zoomPreviewImg.style.width  = img.offsetWidth  * ZOOM_FACTOR + 'px';
-      zoomPreviewImg.style.height = img.offsetHeight * ZOOM_FACTOR + 'px';
     }
   }
 
-  if (carousel) {
+  if (carousel && zoomPreviewBox && zoomPreviewImg && zoomViewport) {
+
+    /* ── Mouse MOVE over the carousel ── */
     carousel.addEventListener('mousemove', function (e) {
-      const img  = getActiveImg();
-      const lens = getActiveLens();
+      var img  = getActiveImg();
+      var lens = getActiveLens();
       if (!img || !lens) return;
 
-      const rect = img.getBoundingClientRect();
+      var rect = img.getBoundingClientRect();
 
-      // Mouse position relative to the image
-      let x = e.clientX - rect.left;
-      let y = e.clientY - rect.top;
+      /* Cursor position relative to the image element */
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
 
-      // Clamp so lens doesn't go outside image
-      x = Math.max(LENS_W / 2, Math.min(x, rect.width  - LENS_W / 2));
-      y = Math.max(LENS_H / 2, Math.min(y, rect.height - LENS_H / 2));
-
-      // Position the lens
-      lens.style.display = 'block';
-      lens.style.left    = (x - LENS_W / 2) + 'px';
-      lens.style.top     = (y - LENS_H / 2) + 'px';
-      lens.style.width   = LENS_W + 'px';
-      lens.style.height  = LENS_H + 'px';
-
-      // Calculate what portion of the original image to show in the preview
-      const ratioX = x / rect.width;
-      const ratioY = y / rect.height;
-
-      const previewW = zoomPreview.offsetWidth;
-      const previewH = zoomPreview.offsetHeight;
-
-      // The zoomed image dimensions
-      const zoomedW = rect.width  * ZOOM_FACTOR;
-      const zoomedH = rect.height * ZOOM_FACTOR;
-
-      // Offset so the hovered point is centered in the preview
-      const offsetX = ratioX * zoomedW - previewW / 2;
-      const offsetY = ratioY * zoomedH - previewH / 2;
-
-      // Sync preview image
-      if (zoomPreviewImg) {
-        zoomPreviewImg.src    = img.src;
-        zoomPreviewImg.style.width    = zoomedW + 'px';
-        zoomPreviewImg.style.height   = zoomedH + 'px';
-        zoomPreviewImg.style.position = 'absolute';
-        zoomPreviewImg.style.left     = -offsetX + 'px';
-        zoomPreviewImg.style.top      = -offsetY + 'px';
-        zoomPreviewImg.style.maxWidth = 'none';
+      /* Ignore if cursor is outside the image bounds */
+      if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+        hideZoom(lens);
+        return;
       }
 
-      // Show the preview panel
-      zoomPreview.classList.add('active');
+      /* ── Show the lens ── */
+      /* Clamp so lens stays inside the image */
+      var lensLeft = Math.max(0, Math.min(x - LENS_W / 2, rect.width  - LENS_W));
+      var lensTop  = Math.max(0, Math.min(y - LENS_H / 2, rect.height - LENS_H));
+
+      lens.style.display = 'block';
+      lens.style.left    = lensLeft + 'px';
+      lens.style.top     = lensTop  + 'px';
+      lens.style.width   = LENS_W   + 'px';
+      lens.style.height  = LENS_H   + 'px';
+
+      /* ── Position the zoomed image inside the preview box ──
+         The preview viewport is a fixed-size clipping box.
+         We need to move the enlarged image so that the point
+         the cursor is hovering becomes centred in the viewport.
+      */
+      var vpW = zoomViewport.offsetWidth;
+      var vpH = zoomViewport.offsetHeight;
+
+      /* How large the image becomes after zooming */
+      var zoomedW = rect.width  * ZOOM_FACTOR;
+      var zoomedH = rect.height * ZOOM_FACTOR;
+
+      /* Where on the zoomed image the cursor lands */
+      var zoomedX = (x / rect.width)  * zoomedW;
+      var zoomedY = (y / rect.height) * zoomedH;
+
+      /* Shift so cursor point is centred in the viewport */
+      var imgLeft = vpW / 2 - zoomedX;
+      var imgTop  = vpH / 2 - zoomedY;
+
+      /* Clamp so we don't show blank space outside the image */
+      imgLeft = Math.min(0, Math.max(imgLeft, vpW - zoomedW));
+      imgTop  = Math.min(0, Math.max(imgTop,  vpH - zoomedH));
+
+      /* Apply to the preview image */
+      zoomPreviewImg.src          = img.src;
+      zoomPreviewImg.style.width  = zoomedW + 'px';
+      zoomPreviewImg.style.height = zoomedH + 'px';
+      zoomPreviewImg.style.left   = imgLeft  + 'px';
+      zoomPreviewImg.style.top    = imgTop   + 'px';
+
+      /* ── Reveal the preview box ── */
+      zoomPreviewBox.classList.add('active');
+
+      /* Add a class to the zoom-area so the hint label fades */
+      if (zoomArea) zoomArea.classList.add('zooming');
     });
 
+    /* ── Mouse LEAVE the carousel ── */
     carousel.addEventListener('mouseleave', function () {
-      const lens = getActiveLens();
-      if (lens) lens.style.display = 'none';
-
-      // Hide all lenses
-      track.querySelectorAll('.zoom-lens').forEach(l => { l.style.display = 'none'; });
-
-      if (zoomPreview) zoomPreview.classList.remove('active');
+      var lens = getActiveLens();
+      hideZoom(lens);
     });
+
+    /**
+     * Hides the lens and the preview box.
+     * @param {HTMLElement|null} lens
+     */
+    function hideZoom(lens) {
+      /* Hide every lens (safety — only one should be visible) */
+      if (track) {
+        track.querySelectorAll('.zoom-lens').forEach(function (l) {
+          l.style.display = 'none';
+        });
+      }
+      zoomPreviewBox.classList.remove('active');
+      if (zoomArea) zoomArea.classList.remove('zooming');
+    }
   }
 
 
   /* ============================================================
-     5. INDUSTRIES CAROUSEL (horizontal scroll with arrows)
+     5.  INDUSTRIES HORIZONTAL CAROUSEL
      ============================================================ */
-  const indTrack  = document.getElementById('industriesTrack');
-  const indPrev   = document.getElementById('indPrev');
-  const indNext   = document.getElementById('indNext');
+  var indTrack = document.getElementById('industriesTrack');
+  var indPrev  = document.getElementById('indPrev');
+  var indNext  = document.getElementById('indNext');
+  var indOffset = 0;
+  var IND_STEP  = 300; /* px per click */
 
-  let indOffset = 0;
-  const IND_CARD_W = 300; // approximate card + gap width
-
-  function getIndMaxOffset() {
+  function indMaxOffset() {
     if (!indTrack) return 0;
-    const cards    = indTrack.querySelectorAll('.industry-card');
-    const wrapper  = document.getElementById('industriesCarousel');
-    const visible  = wrapper ? wrapper.offsetWidth : 0;
-    const total    = cards.length * IND_CARD_W;
+    var wrapper = document.getElementById('industriesCarousel');
+    var total   = indTrack.querySelectorAll('.industry-card').length * IND_STEP;
+    var visible = wrapper ? wrapper.offsetWidth : 0;
     return Math.max(0, total - visible);
   }
 
   if (indPrev) {
-    indPrev.addEventListener('click', () => {
-      indOffset = Math.max(0, indOffset - IND_CARD_W);
-      indTrack.style.transform = `translateX(-${indOffset}px)`;
+    indPrev.addEventListener('click', function () {
+      indOffset = Math.max(0, indOffset - IND_STEP);
+      indTrack.style.transform = 'translateX(-' + indOffset + 'px)';
     });
   }
   if (indNext) {
-    indNext.addEventListener('click', () => {
-      indOffset = Math.min(getIndMaxOffset(), indOffset + IND_CARD_W);
-      indTrack.style.transform = `translateX(-${indOffset}px)`;
+    indNext.addEventListener('click', function () {
+      indOffset = Math.min(indMaxOffset(), indOffset + IND_STEP);
+      indTrack.style.transform = 'translateX(-' + indOffset + 'px)';
     });
   }
 
 
   /* ============================================================
-     6. PROCESS TABS
+     6.  PROCESS TABS
+     Clicking a tab button hides all panels and shows the matching one.
      ============================================================ */
-  const processTabs   = document.querySelectorAll('.process-tab');
-  const processPanels = document.querySelectorAll('.process-panel');
+  var processTabs   = document.querySelectorAll('.process-tab');
+  var processPanels = document.querySelectorAll('.process-panel');
 
   processTabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      const targetId = 'tab-' + this.dataset.tab;
+      var targetId = 'tab-' + this.dataset.tab;
 
-      // Update tab active state
-      processTabs.forEach(t => {
+      /* Update button states */
+      processTabs.forEach(function (t) {
         t.classList.remove('active');
         t.setAttribute('aria-selected', 'false');
       });
       this.classList.add('active');
       this.setAttribute('aria-selected', 'true');
 
-      // Show matching panel
+      /* Update panel visibility */
       processPanels.forEach(function (panel) {
         panel.classList.toggle('active', panel.id === targetId);
       });
@@ -268,73 +289,71 @@
 
 
   /* ============================================================
-     7. FAQ ACCORDION
+     7.  FAQ ACCORDION
+     Only one item open at a time.
      ============================================================ */
-  const faqItems = document.querySelectorAll('.faq-item');
+  var faqItems = document.querySelectorAll('.faq-item');
 
   faqItems.forEach(function (item) {
-    const btn  = item.querySelector('.faq-question');
-    const icon = item.querySelector('.faq-icon');
+    var btn  = item.querySelector('.faq-question');
+    var icon = item.querySelector('.faq-icon');
+    if (!btn) return;
 
     btn.addEventListener('click', function () {
-      const isOpen = item.classList.contains('open');
+      var isOpen = item.classList.contains('open');
 
-      // Close all items first
+      /* Close all */
       faqItems.forEach(function (fi) {
         fi.classList.remove('open');
-        fi.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        const ic = fi.querySelector('.faq-icon');
-        ic.classList.remove('fa-chevron-up');
-        ic.classList.add('fa-chevron-down');
+        var q = fi.querySelector('.faq-question');
+        var ic = fi.querySelector('.faq-icon');
+        if (q)  q.setAttribute('aria-expanded', 'false');
+        if (ic) { ic.classList.remove('fa-chevron-up'); ic.classList.add('fa-chevron-down'); }
       });
 
-      // If it wasn't open, open it now
+      /* Open clicked one (if it was closed) */
       if (!isOpen) {
         item.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
+        if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
       }
     });
   });
 
 
   /* ============================================================
-     8. TESTIMONIALS AUTO-SCROLL
-     Continuously scrolls left; pauses on hover.
+     8.  TESTIMONIALS AUTO-SCROLL
+     Continuously scrolls left at a slow speed.
+     Pauses when the user hovers over the track.
      ============================================================ */
-  const testimonialsTrack = document.getElementById('testimonialsTrack');
+  var testimonialsTrack = document.getElementById('testimonialsTrack');
 
   if (testimonialsTrack) {
-    let scrollPos   = 0;
-    let paused      = false;
-    const SPEED     = 0.5; // pixels per frame
+    var scrollPos = 0;
+    var paused    = false;
+    var SPEED     = 0.6; /* px per animation frame */
 
-    function autoScrollTestimonials() {
+    function autoScroll() {
       if (!paused) {
         scrollPos += SPEED;
-        const maxScroll = testimonialsTrack.scrollWidth - testimonialsTrack.parentElement.offsetWidth;
-
-        if (scrollPos >= maxScroll) {
-          // Reset to beginning for seamless loop
-          scrollPos = 0;
-        }
-        testimonialsTrack.style.transform = `translateX(-${scrollPos}px)`;
+        var maxScroll = testimonialsTrack.scrollWidth - testimonialsTrack.parentElement.offsetWidth;
+        if (scrollPos >= maxScroll) scrollPos = 0; /* seamless loop */
+        testimonialsTrack.style.transform = 'translateX(-' + scrollPos + 'px)';
       }
-      requestAnimationFrame(autoScrollTestimonials);
+      requestAnimationFrame(autoScroll);
     }
 
-    testimonialsTrack.addEventListener('mouseenter', () => { paused = true; });
-    testimonialsTrack.addEventListener('mouseleave', () => { paused = false; });
+    testimonialsTrack.addEventListener('mouseenter', function () { paused = true;  });
+    testimonialsTrack.addEventListener('mouseleave', function () { paused = false; });
 
-    autoScrollTestimonials();
+    autoScroll();
   }
 
 
   /* ============================================================
-     INIT
+     INITIALISE
      ============================================================ */
-  // Ensure correct initial slide position
-  goToSlide(0);
+  goToSlide(0);   /* ensure correct starting position */
+  updateZoomSrc(); /* pre-load zoom preview src */
 
 })();
